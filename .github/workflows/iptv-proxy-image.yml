@@ -33,6 +33,10 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE }}
+          # 关掉 metadata-action 的 latest=auto：否则推任何 tag 都会覆盖 latest，
+          # 以后补推一个旧版本 tag 会让 latest 回退
+          flavor: |
+            latest=false
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
