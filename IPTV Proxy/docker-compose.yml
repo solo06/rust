@@ -1,0 +1,22 @@
+services:
+  iptv-proxy:
+    image: cynyy0126/iptv-proxy:latest
+    container_name: iptv-proxy
+    restart: unless-stopped
+    ports:
+      - "19899:19899"
+    environment:
+      TZ: Asia/Shanghai
+      # 首次启动时用这些变量生成 /data/config.toml，之后以面板设置为准
+      PANEL_USERNAME: admin
+      PANEL_PASSWORD: "改成你自己的密码"
+      PANEL_PORT: "19899"
+      # 走 Lucky / nginx 反代时改成 proxy，直连保持 off
+      EDGE_MODE: "off"
+    volumes:
+      - ./data:/data
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
